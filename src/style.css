@@ -1,1 +1,11 @@
 @import "tailwindcss";
+@import "@fontsource-variable/eb-garamond";
+
+html {
+    font-family: "EB Garamond Variable", ui-serif;
+}
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-taupe-500) transparent;
+}
