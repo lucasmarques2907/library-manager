@@ -1,7 +1,8 @@
 @import "tailwindcss";
+@import "@fontsource-variable/eb-garamond";
 
 html {
-    font-family: "EB Garamond", ui-serif;
+    font-family: "EB Garamond Variable", ui-serif;
 }
 
 html {

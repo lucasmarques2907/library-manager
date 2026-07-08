@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent } from "react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 function App() {
   interface Book {
@@ -6,6 +7,8 @@ function App() {
     title: string;
     author: string;
   }
+
+  const currentYear = new Date().getFullYear();
 
   const [books, setBooks] = useState<Book[]>([]);
 
@@ -16,25 +19,26 @@ function App() {
   const [editingTitle, setEditingTitle] = useState("");
   const [editingAuthor, setEditingAuthor] = useState("");
 
-  function handleSetTitle(e: ChangeEvent<HTMLInputElement, HTMLInputElement>) {
+  function generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2);
+  }
+
+  function handleSetTitle(e: ChangeEvent<HTMLInputElement>) {
     setTitle(e.target.value);
   }
 
-  function handleSetAuthor(
-    e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
-  ) {
+  function handleSetAuthor(e: React.ChangeEvent<HTMLInputElement>) {
     setAuthor(e.target.value);
   }
 
   function handleAddBook(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-
     if (!title || !author) return;
 
     setBooks([
       ...books,
       {
-        id: crypto.randomUUID(),
+        id: generateId(),
         title: title,
         author: author,
       },
@@ -92,8 +96,8 @@ function App() {
   }
 
   return (
-    <div className='bg-orange-200/30 h-screen w-screen'>
-      <div className='mx-auto max-w-3xl p-8 flex flex-col gap-y-4 h-full'>
+    <div className='bg-orange-200/30 min-h-dvh w-screen flex flex-col'>
+      <div className='mx-auto max-w-3xl p-8 flex flex-col gap-y-4 flex-1 min-h-0 w-full'>
         <div>
           <h1 className='text-4xl text-taupe-600'>Library Manager</h1>
           <h2 className='italic text-taupe-500 text-base'>
@@ -102,13 +106,13 @@ function App() {
         </div>
 
         <form
-          onSubmit={(e) => handleAddBook(e)}
-          className='grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-3 justify-center items-end bg-white/40 p-4 rounded-lg shadow-sm border border-taupe-400/40'
+          onSubmit={handleAddBook}
+          className='grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-3 justify-center items-end bg-white/50 p-4 rounded-lg shadow-sm '
         >
           <div className='flex flex-col gap-y-0.5'>
             <label
               htmlFor='title_add'
-              className='text-xs font- tracking-widest text-taupe-500'
+              className='text-xs tracking-widest text-taupe-500'
             >
               TITLE
             </label>
@@ -117,7 +121,7 @@ function App() {
               id='title_add'
               placeholder='The Lord of the Rings'
               value={title}
-              onChange={(e) => handleSetTitle(e)}
+              onChange={handleSetTitle}
               className='text-sm text-taupe-600 bg-white rounded-md border border-taupe-400/40 px-3 py-2 placeholder:text-taupe-400 focus:outline-none focus:ring-2 focus:ring-amber-500'
             />
           </div>
@@ -133,7 +137,7 @@ function App() {
               id='author_add'
               placeholder='J. R. R. Tolkien'
               value={author}
-              onChange={(e) => handleSetAuthor(e)}
+              onChange={handleSetAuthor}
               className='text-sm text-taupe-600 bg-white rounded-md border border-taupe-400/40 px-3 py-2 placeholder:text-taupe-400  focus:outline-none focus:ring-2 focus:ring-amber-500'
             />
           </div>
@@ -156,12 +160,13 @@ function App() {
           <p className='text-taupe-500 text-base'>
             {books.length} {books.length === 1 ? "book" : "books"} on the shelf
           </p>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 py-2 overflow-y-auto mask-b-from-98% mask-t-from-98%'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 -mx-1 py-2 px-1 overflow-y-auto mask-b-from-98% mask-t-from-98%'>
             {books.map((book, i) =>
               book.id === editingId ? (
                 <form
+                  key={i}
                   onSubmit={handleEditBook}
-                  className='h-full flex flex-col gap-3 p-2 bg-white/30 shadow-sm rounded-lg justify-between'
+                  className='h-full flex flex-col gap-3 p-2 bg-white/50 shadow-sm rounded-lg justify-between'
                 >
                   <div className='flex flex-col gap-3'>
                     <input
@@ -169,7 +174,7 @@ function App() {
                       id='title_edit'
                       placeholder='Title'
                       value={editingTitle}
-                      onChange={(e) => handleSetEditingTitle(e)}
+                      onChange={handleSetEditingTitle}
                       className='text-sm text-taupe-600 bg-white rounded-md border border-taupe-400/40 px-3 py-2 placeholder:text-taupe-400 focus:outline-none focus:ring-2 focus:ring-amber-500'
                     />
                     <input
@@ -177,7 +182,7 @@ function App() {
                       id='author_edit'
                       placeholder='Author'
                       value={editingAuthor}
-                      onChange={(e) => handleSetEditingAuthor(e)}
+                      onChange={handleSetEditingAuthor}
                       className='text-sm text-taupe-600 bg-white rounded-md border border-taupe-400/40 px-3 py-2 placeholder:text-taupe-400 focus:outline-none focus:ring-2 focus:ring-amber-500'
                     />
                   </div>
@@ -202,7 +207,7 @@ function App() {
               ) : (
                 <div
                   key={i}
-                  className='flex flex-col gap-y-2 bg-white/30 shadow-sm rounded-lg'
+                  className='flex flex-col gap-y-2 bg-white/50 shadow-sm rounded-lg'
                 >
                   <div
                     className={`h-20 rounded-t-lg relative ${i % 2 === 0 ? "bg-orange-900/70" : "bg-amber-900/70"}`}
@@ -247,6 +252,17 @@ function App() {
           </div>
         </div>
       </div>
+      <footer className='flex  flex-col gap-y-1 w-full h-fit bg-taupe-600 text-taupe-200 p-2 text-center text-sm'>
+        <p>Made by Lucas Vinícius Marques &copy; {currentYear}</p>
+        <div className='flex items-center justify-center gap-x-2'>
+          <a href='https://github.com/lucasmarques2907' target='_blank'>
+            <FaGithub className='w-5 h-5' />
+          </a>
+          <a href='https://www.linkedin.com/in/lcsvmrqs' target='_blank'>
+            <FaLinkedin className='w-5 h-5' />
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
