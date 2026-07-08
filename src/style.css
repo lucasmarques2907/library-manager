@@ -1,11 +1,10 @@
 @import "tailwindcss";
 
 html {
-    background-color: #252526;
+    font-family: "EB Garamond", ui-serif;
 }
 
-label {
-    color: white;
-    font-weight:600;
-    font-size: 12pt;
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-taupe-500) transparent;
 }
