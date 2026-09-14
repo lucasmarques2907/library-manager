@@ -1,3 +1,5 @@
+## Sobre
+
 Um simples site feito em React.js com o objetivo de aprender gerenciamento de estado por meio de um sistema de biblioteca, onde é possível adicionar livros, editar título e/ou autor e deletar livros. Além disso, apliquei um estilo design que não havia utilizado anteriormente, cores mais quentes e uma paleta que reflete a sensação de uma biblioteca.
 
 ## Tech Stack:
